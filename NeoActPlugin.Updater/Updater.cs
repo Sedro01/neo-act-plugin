@@ -254,7 +254,7 @@ namespace NeoActPlugin.Updater
                 lastCheck = DateTime.MinValue,
                 currentVersion = Assembly.GetExecutingAssembly().GetName().Version,
                 checkInterval = TimeSpan.FromMinutes(5),
-                repo = "azuradara/neo-act-plugin",
+                repo = "Sedro01/neo-act-plugin",
                 downloadUrl = "https://github.com/{REPO}/releases/download/{VERSION}/neo-act-plugin-v{VERSION}.7z",
             };
 

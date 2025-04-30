@@ -25,7 +25,7 @@ namespace NeoActPlugin.Updater
             ProgressInfoCallback infoCb, bool resume)
         {
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "azuradara/NeoActPlugin v" + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            client.DefaultRequestHeaders.Add("User-Agent", "Sedro01/NeoActPlugin v" + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             foreach (var key in headers.Keys)
             {
