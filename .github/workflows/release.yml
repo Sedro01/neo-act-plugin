@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  release:
+    types:
+      - edited
+      - released
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Fetch dependencies
+        run: |
+          python tools/fetch_deps.py
+
+      - name: Find Visual Studio
+        id: vs
+        shell: pwsh
+        run: |
+          $vsPath = &"${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationPath
+          if (-not $vsPath) {
+              Write-Error "Visual Studio not found"
+              exit 1
+          }
+          echo "VS_PATH=$vsPath" >> $env:GITHUB_ENV
+          echo "MSBUILD_PATH=$vsPath\MSBuild\Current\Bin" >> $env:GITHUB_ENV
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - id: get-version
+        name: Get version
+        uses: jannemattila/get-version-from-tag@v4
+
+      - name: Set version on AssemblyInfo.cs
+        uses: dannevesdantas/set-version-assemblyinfo-win@v1.0.0
+        with:
+          version: ${{ steps.get-version.outputs.version }}
+
+      - name: Build solution
+        shell: pwsh
+        run: |
+          $env:Path += ";$env:MSBUILD_PATH"
+          ./build.ps1
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: out/*.{zip,7z}
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
