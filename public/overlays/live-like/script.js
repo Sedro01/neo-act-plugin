@@ -147,7 +147,6 @@ function parseAnyNumberFormat(value) {
 }
 
 function updateDPSMeter(data) {
-  console.log(data)
   document.getElementById('boss-name').innerText = data.Encounter.title || 'No Data'
 
   let table = document.getElementById('combatantTable')
