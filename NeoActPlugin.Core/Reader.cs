@@ -48,8 +48,8 @@ namespace NeoActPlugin.Core
         private IntPtr _baseAddress;
         private IntPtr _currentAddress;
         public static string _region = "Global";
-        private readonly long[] _offsets = { 0x750fee8, 0xA0, 0x670, 0x8 };
-        private readonly long[] _offsetsTWJP = { 0x750fee8, 0xA0, 0x670, 0x8 };
+        private readonly long[] _offsets = { 0x750ff58, 0xA0, 0x670, 0x8 };
+        private readonly long[] _offsetsTWJP = { 0x750ff28, 0xA0, 0x670, 0x8 };
         private string[] _lastLines = new string[600];
 
         private IntPtr _processHandle = IntPtr.Zero;
